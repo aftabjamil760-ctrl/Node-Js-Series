@@ -1,0 +1,49 @@
+<%- include('header') %>
+    <div class="row mb-5">
+    
+    <div class="row mb-5">
+      <div class="col-6">
+        <h4><%=title %></h4>
+ 
+  <table class="table">
+    <% items.forEach(item => { %>
+        <tr>
+            <td><%= item.name %></td>
+            <td><%= item.age %></td>
+            <td><%= item.city %></td>
+        </tr>
+    <% }) %>
+    
+</table>
+
+
+      </div>
+      <img src="images/flower.jpg" alt="">
+    </div>
+    </div>
+  <%- include('footer') %>
+
+<!--
+<ul>
+    <% items.forEach(item => { 
+        %>
+        <li> <%=  item _%></li>
+    <%}) %>
+</ul>
+
+    <% if(message){ %>
+    <p><%= message %></p>
+    <%
+    } else { %>
+        <span>there is no message</span>
+        <%}%>
+   
+    <h1><%= title %></h1>
+        <p><%= message %></p>
+    -->
+
+    
+  
+
+</body>
+</html>

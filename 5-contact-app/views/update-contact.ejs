@@ -1,0 +1,48 @@
+<%- include('partials/header', { title: 'Update Contact' }) %>
+
+				<div class="col-lg-9">
+					<div class="card shadow-sm">
+
+						<div class="card-body">
+							<form action="/update-contact/<%= contact._id %>" method="post">
+  <input type="hidden" name="id" value="<%= contact ? contact._id : '' %>">
+
+								<div class="row g-3">
+									<div class="col-md-6">
+										<label for="firstName"  class="form-label">First Name</label>
+										<input type="text" value="<%= contact.firstName %>" class="form-control" id="firstName" name="firstName" value="<%= contact ? contact.firstName : '' %>" required>
+									</div>
+									<div class="col-md-6">
+										<label for="lastName"  class="form-label">Last Name</label>
+										<input type="text" value="<%= contact.lastName %>" class="form-control" id="lastName" name="lastName" value="<%= contact ? contact.lastName : '' %>">
+									</div>
+
+									<div class="col-12">
+										<label for="address" class="form-label">Address</label>
+										<textarea class="form-control"  id="address" name="address" rows="6"><%= contact ? contact.address : '' %><%= contact.address %></textarea>
+									</div>
+
+									<div class="col-md-4">
+										<label for="phone" class="form-label">Phone</label>
+										<input type="tel" value="<%= contact.phone %>" class="form-control" id="phone" name="phone" value="<%= contact ? contact.phone : '' %>">
+									</div>
+									<div class="col-md-4">
+										<label for="email" class="form-label">Email</label>
+										<input type="email" value="<%= contact.email %>" class="form-control" id="email" name="email" value="<%= contact ? contact.email : '' %>">
+									</div>
+									<div class="col-md-4">
+										<label for="company" class="form-label">Company</label>
+										<input type="text" value="<%= contact.company %>" class="form-control" id="company" name="company" value="<%= contact ? contact.company : '' %>">
+									</div>
+
+									<div class="col-12 d-flex gap-2 mt-2">
+										<button type="submit" class="btn btn-primary">Update</button>
+										<a href="/" class="btn btn-outline-secondary">Cancel</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+<%- include('partials/footer') %>

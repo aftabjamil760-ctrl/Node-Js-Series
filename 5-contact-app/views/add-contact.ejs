@@ -1,0 +1,48 @@
+<%- include('partials/header', { title: 'Add Contact' }) %>
+
+				<!-- Form column -->
+				<div class="col-lg-9">
+					<div class="card shadow-sm">
+						<div class="card-body">
+							<form action="/add-contact" method="post">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<label for="firstName" class="form-label">First Name</label>
+										<input type="text" class="form-control" id="firstName" name="firstName" required>
+									</div>
+									<div class="col-md-6">
+										<label for="lastName" class="form-label">Last Name</label>
+										<input type="text" class="form-control" id="lastName" name="lastName">
+									</div>
+
+									<div class="col-12">
+										<label for="address" class="form-label">Address</label>
+										<textarea class="form-control" id="address" name="address" rows="6"></textarea>
+									</div>
+
+									<div class="col-md-4">
+										<label for="phone" class="form-label">Phone</label>
+										<input type="tel" class="form-control" id="phone" name="phone">
+									</div>
+									<div class="col-md-4">
+										<label for="email" class="form-label">Email</label>
+										<input type="email" class="form-control" id="email" name="email">
+									</div>
+									<div class="col-md-4">
+										<label for="company" class="form-label">Company</label>
+										<input type="text" class="form-control" id="company" name="company">
+									</div>
+
+									<div class="col-12 d-flex flex-column flex-sm-row gap-2 mt-2">
+										<button type="submit" class="btn btn-primary">Save</button>
+										<a href="/home" class="btn btn-outline-secondary">Cancel</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- right sidebar removed -->
+
+<%- include('partials/footer') %>

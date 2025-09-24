@@ -1,0 +1,76 @@
+<%- include('partials/header', { title: 'Contacts' }) %>
+        <!-- Main content column -->
+        <div class="col-lg-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">404 Error</h4>
+                <a href="/add-contact" class="btn btn-success">+ Add Contact</a>
+              </div>
+
+              <div class="table-responsive" style="max-height:72vh;">
+                <% if(message) {
+                    %>
+                    <h1><%= message %></h1>
+                <%}else { %>
+                    <h1> Page not found.</h1>
+                <%}%>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  <!-- right sidebar removed -->
+      </div>
+    </div>
+              <p class="text-danger">Error: Page not found.</p>
+    <!-- View Modal -->
+    <div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Contact Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <dl class="row">
+              <dt class="col-4">First Name</dt><dd class="col-8" id="v-first"></dd>
+              <dt class="col-4">Last Name</dt><dd class="col-8" id="v-last"></dd>
+              <dt class="col-4">Email</dt><dd class="col-8" id="v-email"></dd>
+              <dt class="col-4">Phone</dt><dd class="col-8" id="v-phone"></dd>
+              <dt class="col-4">Address</dt><dd class="col-8" id="v-address"></dd>
+              <dt class="col-4">Company</dt><dd class="col-8" id="v-company"></dd>
+            </dl>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+<%- include('partials/footer', { extraScripts: `
+<script>
+  // populate view modal
+  var viewModal = document.getElementById('viewModal');
+  viewModal && viewModal.addEventListener('show.bs.modal', function (e) {
+    var btn = e.relatedTarget;
+    if(!btn) return;
+    document.getElementById('v-first').textContent = btn.dataset.first || '';
+    document.getElementById('v-last').textContent = btn.dataset.last || '';
+    document.getElementById('v-email').textContent = btn.dataset.email || '';
+    document.getElementById('v-phone').textContent = btn.dataset.phone || '';
+    document.getElementById('v-address').textContent = btn.dataset.address || '';
+
+    document.getElementById('v-company').textContent = btn.dataset.company || '';
+    var editLink = document.getElementById('v-edit');
+    var id = btn.dataset.id;
+   
+  });
+
+  // confirm delete
+  document.querySelectorAll('.delete-form').forEach(function(form){
+    form.addEventListener('submit', function(ev){
+      if(!confirm('Delete this contact?')) ev.preventDefault();
+    });
+  });
+</script>
+` }) %>

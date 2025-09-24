@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Records</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; }
+    .container { margin-top: 24px; }
+    .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .actions { display:flex; gap:8px; }
+    .table thead { background:#222; color:#fff; }
+    .btn-view { background:#17a2b8; color:#fff; }
+    .btn-edit { background:#ffc107; color:#000; }
+    .btn-delete { background:#dc3545; color:#fff; }
+    .profile-img {
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      object-fit:cover;
+      display:block;
+      margin:4px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search by name" style="max-width:420px">
+      <div class="actions">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
+        <button class="btn btn-primary">Refresh</button>
+      </div>
+    </div>
+    
+      <!-- View Student Modal -->
+      <div class="modal fade" id="viewStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Student Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex gap-3">
+                <div style="flex:0 0 90px;">
+                  <img id="v-profile-img" src="" alt="profile" style="width:88px; height:88px; object-fit:cover; border-radius:6px; display:none;" />
+                </div>
+                <div style="flex:1;">
+                  <dl class="row">
+                    <dt class="col-4">First Name</dt><dd class="col-8" id="v-first">-</dd>
+                    <dt class="col-4">Last Name</dt><dd class="col-8" id="v-last">-</dd>
+                    <dt class="col-4">Email</dt><dd class="col-8" id="v-email">-</dd>
+                    <dt class="col-4">Phone</dt><dd class="col-8" id="v-phone">-</dd>
+                    <dt class="col-4">Gender</dt><dd class="col-8" id="v-gender">-</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Student Modal -->
+      <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Student</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addStudentForm" method="post" action="#" enctype="multipart/form-data">
+              <div class="modal-body">
+                <div class="mb-2">
+                  <input name="first_name" class="form-control" placeholder="First Name" />
+                </div>
+                <div class="mb-2">
+                  <input name="last_name" class="form-control" placeholder="Last Name" />
+                </div>
+                <div class="mb-2">
+                  <input name="email" type="email" class="form-control" placeholder="Email" />
+                </div>
+                <div class="mb-2">
+                  <input name="phone" class="form-control" placeholder="Phone" />
+                </div>
+                <div class="mb-2">
+                  <select name="gender" class="form-select">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Upload Profile Picture:</label>
+                  <input name="profile_pic" type="file" class="form-control" />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Create Student</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Profile</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+  <tbody id="studentTableBody">
+          <tr data-id="1" data-first="Yahu" data-last="Baba" data-email="yahubaba@email.com" data-phone="55566677" data-gender="Male">
+            <td><img src="uploads/1600w-3mBG2BKospo.webp" alt="profile" class="profile-img" onerror="this.onerror=null;this.src='https://via.placeholder.com/56';" /></td>
+            <td>Yahu</td>
+            <td>Baba</td>
+            <td>yahubaba@email.com</td>
+            <td>55566677</td>
+            <td>Male</td>
+            <td>
+              <button class="btn btn-sm btn-view">View</button>
+              <button class="btn btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editStudentModal" data-id="1" data-first="Yahu" data-last="Baba" data-email="yahubaba@email.com" data-phone="55566677" data-gender="Male">Edit</button>
+              <button class="btn btn-sm btn-delete">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center my-3">
+    <nav aria-label="Page navigation">
+      <ul id="pagination" class="pagination"></ul>
+    </nav>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Edit Student Modal -->
+  <div class="modal fade" id="editStudentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="editStudentForm" action="" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_method" value="PUT">
+          <input type="hidden" id="editStudentId" name="id" value="" />
+          <div class="modal-body">
+           
+            <div class="mb-2">
+              <input id="edit-first" name="first_name" class="form-control" placeholder="First Name" />
+            </div>
+            <div class="mb-2">
+              <input id="edit-last" name="last_name" class="form-control" placeholder="Last Name" />
+            </div>
+            <div class="mb-2">
+              <input id="edit-email" name="email" type="email" class="form-control" placeholder="Email" />
+            </div>
+            <div class="mb-2">
+              <input id="edit-phone" name="phone" class="form-control" placeholder="Phone" />
+            </div>
+            
+            <div class="mb-2">
+              <select id="edit-gender" name="gender" class="form-select">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Upload Profile Picture:</label>
+              <input id="edit-profile" name="profile_pic" type="file" class="form-control" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Use HTTP (not HTTPS) for a local dev server unless you have configured HTTPS
+  const apiUrl = 'http://localhost:5000/api/students'
+  let currentPage = 1
+  let currentSearch = ''
+
+//store token in localstorage
+function CheckAuth(){
+  const token = localStorage.getItem("token")
+  if(!token){
+    window.location.href = "index.html"
+  }
+  return token
+}
+const token = CheckAuth()
+
+
+  const uploadBase = apiUrl.replace('/api/students','') + '/uploads'
+  const placeholderSrc = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56'><rect width='100%' height='100%' fill='%23ddd'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='10' fill='%23666'>No%20Image</text></svg>"
+
+  // view all students
+  async function fetchStudents(search = '', page = 1){
+    currentPage = page
+    currentSearch = search
+    let data = null
+    try {
+      let url = apiUrl
+      if (search) url += `?search=${encodeURIComponent(search)}&page=${page}&limit=3`,
+      {
+        headers : {'Authorization': `Bearer ${token}`}
+      }
+      else url += `?page=${page}&limit=3`
+      console.debug('Fetching students from:', url)
+      const res = await fetch(url, {
+  method: "GET",  // optional, defaults to GET
+  headers: {
+    'Authorization': `Bearer ${token}`
+  },
+  mode: 'cors'
+});
+
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+      data = await res.json()
+      console.debug('API response:', data)
+
+      const tbody = document.querySelector('#studentTableBody')
+      if (!tbody) return console.error('Table body not found')
+      tbody.innerHTML = ''
+
+      const students = (data && (data.students || data.data)) || (Array.isArray(data) ? data : [])
+      console.debug('Students length:', students.length)
+      if (!students || students.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center">No records found</td></tr>'
+      } else {
+        students.forEach(student => {
+          tbody.innerHTML  += `
+            <tr>
+              <td>${student.profile_pic ? '<img src="' + uploadBase + '/' + student.profile_pic + '" class="profile-img" onerror="this.onerror=null;this.src=\'' + placeholderSrc + '\';" />' : '<img src="' + placeholderSrc + '" class="profile-img" />'}</td>
+              <td>${student.first_name || ''}</td>
+              <td>${student.last_name || ''}</td>
+              <td>${student.email || ''}</td>
+              <td>${student.phone || ''}</td>
+              <td>${student.gender || ''}</td>
+              <td>
+                <button class="btn btn-sm btn-view" onclick="viewStudent('${student._id}')">View</button>
+                <button class="btn btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editStudentModal" data-id="${student._id}" data-first="${student.first_name || ''}" data-last="${student.last_name || ''}" data-email="${student.email || ''}" data-phone="${student.phone || ''}" data-gender="${student.gender || ''}">Edit</button>
+                <button class="btn btn-sm btn-delete" onclick="deleteStudent('${student._id}')">Delete</button>
+              </td>
+            </tr>
+          `
+        })
+      }
+    } catch (err) {
+      console.error('Failed to fetch students:', err)
+      console.error('Check that the backend is running on http://localhost:5000, that CORS is enabled if the API is on a different origin, and that you are not forcing HTTPS locally.')
+    }
+
+    // determine totalPages (handle different API shapes)
+    const totalPages = (data && (data.totalPages || data.totalPage)) || (data && data.totalItems && data.limit ? Math.ceil(data.totalItems / data.limit) : 1)
+    console.debug('Total pages computed:', totalPages, 'currentPage:', currentPage)
+    renderPaginationSimple(totalPages)
+  }
+
+  // initial load
+  fetchStudents('', 1)
+
+  // --- original simple renderPagination (restored) ---
+  function renderPaginationSimple(totalPages){
+    const container = document.querySelector('#pagination')
+    if (!container) return
+    container.innerHTML = ''
+    // Previous Button
+    const prevLi = document.createElement('li')
+    prevLi.className = 'page-item ' + (currentPage === 1 ? 'disabled' : '')
+    prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous">&laquo;</a>`
+    prevLi.addEventListener('click', (e) => {
+      e.preventDefault()
+      if (currentPage > 1) fetchStudents(currentSearch, currentPage - 1)
+    })
+    container.appendChild(prevLi)
+
+    for (let i = 1; i <= totalPages; i++){
+      const li = document.createElement('li')
+      li.className = 'page-item ' + (i === currentPage ? 'active' : '')
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`
+      li.addEventListener('click', (e) => {
+        e.preventDefault()
+        fetchStudents(currentSearch, i)
+      })
+      container.appendChild(li)
+    }
+
+    // Next Button
+    const nextLi = document.createElement('li')
+    nextLi.className = 'page-item ' + (currentPage === totalPages ? 'disabled' : '')
+    nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next">&raquo;</a>`
+    nextLi.addEventListener('click', (e) => {
+      e.preventDefault()
+      if (currentPage < totalPages) fetchStudents(currentSearch, currentPage + 1)
+    })
+    container.appendChild(nextLi)
+  }
+  
+  // view a single student's 
+  async function viewStudent(id){
+    try{
+     const res = await fetch(`${apiUrl}/${id}`, {
+  method: "GET",  // defaults to GET, but writing it is clearer
+  mode: "cors",
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
+});
+
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+      const student = await res.json()
+      document.getElementById('v-first').textContent = student.first_name || '-'
+      document.getElementById('v-last').textContent = student.last_name || '-'
+      document.getElementById('v-email').textContent = student.email || '-'
+      document.getElementById('v-phone').textContent = student.phone || '-'
+      document.getElementById('v-gender').textContent = student.gender || '-'
+      const img = document.getElementById('v-profile-img')
+      if (student.profile_pic) {
+        img.src = uploadBase + '/' + student.profile_pic
+        img.style.display = 'block'
+      } else {
+        img.style.display = 'none'
+      }
+      var modalEl = document.getElementById('viewStudentModal')
+      var modal = new bootstrap.Modal(modalEl)
+      modal.show()
+    } catch(err){
+      console.error('Failed to load student:', err)
+      alert('Failed to load student details. See console for details.')
+    }
+  }
+  // safe search listener
+  const searchInput = document.querySelector('#searchInput')
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      fetchStudents(searchInput.value)
+    })
+  }
+
+  // add new student
+  const addForm = document.getElementById('addStudentForm')
+  if (addForm) {
+    addForm.addEventListener('submit', async function (e) {
+      e.preventDefault()
+      const fd = new FormData(addForm)
+      const payload = {
+        first_name: fd.get('first_name') || '',
+        last_name: fd.get('last_name') || '',
+        email: fd.get('email') || '',
+        phone: fd.get('phone') || '',
+        gender: fd.get('gender') || ''
+      }
+
+      try {
+        const res = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  });
+        if (res.ok) {
+          addForm.reset()
+          const modalEl = document.getElementById('addStudentModal')
+          if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide()
+          fetchStudents()
+        } else {
+          const txt = await res.text()
+          alert('Error creating student: ' + txt)
+        }
+      } catch (err) {
+        console.error('Failed to create student:', err)
+        alert('Failed to create student. See console for details.')
+      }
+    })
+  }
+  //delete Student
+ async function deleteStudent(id) {
+  if (confirm("Are you sure to delete this student?")) {
+    await fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+        headers : {'Authorization': `Bearer ${token}`}
+      
+    })
+    fetchStudents()
+  }
+}
+
+//updates student
+  // Populate edit modal when 'Edit' buttons open it
+  const editModalEl = document.getElementById('editStudentModal')
+  if (editModalEl) {
+    editModalEl.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget
+      if (!button) return
+      const id = button.getAttribute('data-id') || ''
+      const first = button.getAttribute('data-first') || ''
+      const last = button.getAttribute('data-last') || ''
+      const email = button.getAttribute('data-email') || ''
+      const phone = button.getAttribute('data-phone') || ''
+      const gender = button.getAttribute('data-gender') || ''
+
+      const idEl = document.getElementById('editStudentId')
+      if (idEl) idEl.value = id
+      const elFirst = document.getElementById('edit-first')
+      if (elFirst) elFirst.value = first
+      const elLast = document.getElementById('edit-last')
+      if (elLast) elLast.value = last
+      const elEmail = document.getElementById('edit-email')
+      if (elEmail) elEmail.value = email
+      const elPhone = document.getElementById('edit-phone')
+      if (elPhone) elPhone.value = phone
+      const elGender = document.getElementById('edit-gender')
+      if (elGender) elGender.value = gender
+    })
+  }
+
+  // Update student via PUT (send JSON)
+  const editForm = document.getElementById('editStudentForm')
+  if (editForm) {
+    editForm.addEventListener('submit', async function (e) {
+      e.preventDefault()
+      const id = document.getElementById('editStudentId')?.value
+      if (!id) return alert('Missing student id')
+      const payload = {
+        first_name: document.getElementById('edit-first')?.value || '',
+        last_name: document.getElementById('edit-last')?.value || '',
+        email: document.getElementById('edit-email')?.value || '',
+        phone: document.getElementById('edit-phone')?.value || '',
+        gender: document.getElementById('edit-gender')?.value || ''
+      }
+      try {
+       const res = await fetch(`${apiUrl}/${id}`, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify(payload)
+});
+
+        if (res.ok) {
+          editForm.reset()
+          const modalEl = document.getElementById('editStudentModal')
+          if (modalEl) bootstrap.Modal.getInstance(modalEl)?.hide()
+          fetchStudents()
+        } else {
+          const txt = await res.text()
+          alert('Error updating student: ' + txt)
+        }
+      } catch (err) {
+        console.error('Failed to update student:', err)
+        alert('Failed to update student. See console for details.')
+      }
+    })
+  }
+
+  
+  
+  
+  // (removed duplicate malformed viewStudent function)
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>File Upload</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; background: #fff;">
+    <h1 style="text-align: center;">File Upload</h1>
+  <div style="width:520px; margin:60px auto; padding:24px; border:3px solid #2b6ca3;">
+     <!-- used multer it is necessarily enctype without it file will not upload -->
+    <form action="/submitform" method="post" enctype="multipart/form-data" style="display:block;">
+      <div style="display:flex; align-items:center; margin-bottom:18px;">
+        <label for="name" style="width:90px; font-size:18px;">Name</label>
+        <input id="name" name="username" type="text" style="flex:1; padding:10px 12px; border:1px solid #999; font-size:16px;" />
+      </div>
+
+      <div style="display:flex; align-items:center; margin-bottom:18px;">
+        <label for="age" style="width:90px; font-size:18px;">Age</label>
+        <input id="age" name="age" type="text" style="flex:1; padding:10px 12px; border:1px solid #999; font-size:16px;" />
+      </div>
+
+      <div style="display:flex; align-items:center; margin-bottom:22px;">
+        <label for="fileinput" class="form-label" style="width:90px; font-size:18px;">Upload File</label>
+        <input id="fileinput"  class="form-control" name="userfile" type="file" style="flex:1;" />
+      </div>
+
+      <div style="display:flex; align-items:center; margin-bottom:22px;">
+        <label for="fileinput" class="form-label" style="width:90px; font-size:18px;">Documents File</label>
+        <input id="fileinput" multiple="multiple" class="form-control" name="userdocuments" type="file" style="flex:1;" />
+      </div>
+
+      <div style="text-align:left; margin-left:90px;">
+        <button type="submit" style="background:#2d79b3; color:#fff; border:none; padding:10px 18px; font-size:16px;">Submit</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

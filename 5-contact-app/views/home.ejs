@@ -1,0 +1,155 @@
+<%- include('partials/header', { title: 'Contacts' }) %>
+        <!-- Main content column -->
+        <div class="col-lg-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">All Contacts</h4>
+                <a href="/add-contact" class="btn btn-success">+ Add Contact</a>
+              </div>
+
+              <div class="table-responsive" style="max-height:72vh;">
+                <table class="table table-striped table-hover align-middle mb-0">
+                  <thead class="table-light position-sticky top-0">
+                    <tr>
+                      <th class="text-center" style="width:60px">#</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>address</th>
+                      <th>Company</th>
+                      <th style="width:150px">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let srno = Counter %>
+                    <% (contacts || []).forEach(function(contact, i){ %>
+                      <tr>
+                        <td class="text-center"><%= srno++ %></td>
+                        <td><%= contact.firstName %></td>
+                        <td><%= contact.lastName %></td>
+                        <td><%= contact.email %></td>
+                        <td><%= contact.phone %></td>
+                        <td><%= contact.address %></td>
+                        <td><%= contact.company %></td>
+                        <td>
+                          <button type="button" class="btn btn-sm btn-info text-white rounded-circle me-1" 
+  data-bs-toggle="modal" 
+  data-bs-target="#viewModal"
+  data-id="<%= contact._id %>"
+  data-first="<%= contact.firstName %>" 
+  data-last="<%= contact.lastName %>" 
+  data-email="<%= contact.email %>" 
+  data-phone="<%= contact.phone %>"
+  data-address="<%= contact.address %>"
+  data-company="<%= contact.company %>">
+  <i class="fa-solid fa-eye"></i>
+</button>
+
+                          <a href="/update-contact/<%= contact._id %>" class="btn btn-sm btn-primary rounded-circle me-1" title="Edit">
+  <i class="fa-solid fa-pen"></i>
+</a>
+
+                          <form action="/delete-contact/<%= contact._id %>" method="get" class="d-inline delete-form">
+                            <button type="submit" class="btn btn-sm btn-danger rounded-circle" title="Delete">
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+<!-- // pagination -->
+     <nav>
+  <ul class="pagination justify-content-center">
+   <%
+  let disabledClass = "";
+  if (!hasPrevPage) {
+    disabledClass = "disabled";
+  }
+%>
+
+    <li class="page-item <%= disabledClass %>">
+      <a  class="page-link" href="/?page=<%= prevPage %>">Previous</a>
+    </li>
+
+    <% for(let i = 1; i <= totalPages; i++){
+      let activeClass = currentpage == i ? "active" : ""
+      
+      %>
+      <li class="page-item <%= activeClass%>">
+        <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+    <% let disabledClass2 = hasNextPage ? "" : "disabled" %>
+    <li class="page-item <%= disabledClass2 %>">
+      <a class="page-link" href="/?page=<%= nextPage %>">Next</a>
+    </li>
+  </ul>
+</nav>
+<!-- above nav pagination -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+  <!-- right sidebar removed -->
+      </div>
+    </div>
+
+    <!-- View Modal -->
+    <div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Contact Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <dl class="row">
+              <dt class="col-4">First Name</dt><dd class="col-8" id="v-first"></dd>
+              <dt class="col-4">Last Name</dt><dd class="col-8" id="v-last"></dd>
+              <dt class="col-4">Email</dt><dd class="col-8" id="v-email"></dd>
+              <dt class="col-4">Phone</dt><dd class="col-8" id="v-phone"></dd>
+              <dt class="col-4">Address</dt><dd class="col-8" id="v-address"></dd>
+              <dt class="col-4">Company</dt><dd class="col-8" id="v-company"></dd>
+            </dl>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="#" id="v-edit" class="btn btn-primary">Edit</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<%- include('partials/footer', { extraScripts: `
+<script>
+  // populate view modal
+  var viewModal = document.getElementById('viewModal');
+  viewModal && viewModal.addEventListener('show.bs.modal', function (e) {
+    var btn = e.relatedTarget;
+    if(!btn) return;
+    document.getElementById('v-first').textContent = btn.dataset.first || '';
+    document.getElementById('v-last').textContent = btn.dataset.last || '';
+    document.getElementById('v-email').textContent = btn.dataset.email || '';
+    document.getElementById('v-phone').textContent = btn.dataset.phone || '';
+    document.getElementById('v-address').textContent = btn.dataset.address || '';
+
+    document.getElementById('v-company').textContent = btn.dataset.company || '';
+    var editLink = document.getElementById('v-edit');
+    var id = btn.dataset.id;
+   
+  });
+
+  // confirm delete
+  document.querySelectorAll('.delete-form').forEach(function(form){
+    form.addEventListener('submit', function(ev){
+      if(!confirm('Delete this contact?')) ev.preventDefault();
+    });
+  });
+</script>
+` }) %>
